@@ -5,6 +5,8 @@ class Micropost < ApplicationRecord
   validates :user_id, presence: true
   validates :content, presence: true, length:{maximum:140}
   validate :picture_size
+  scope :feeds, ->(following_ids, user_id){
+    where("user_id IN (?) OR user_id = ?", following_ids, user_id)}
 
   private
   def picture_size
